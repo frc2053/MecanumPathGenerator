@@ -78,6 +78,17 @@
                 <NumberAxis fx:id="yAxisPos" side="LEFT" />
               </yAxis>
             </ScatterChart>
+            <LineChart fx:id="velocityGraph" layoutX="913.0" layoutY="32.0" title="Velocities">
+              <xAxis>
+                <NumberAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <TextField fx:id="pathNameField" layoutX="251.0" layoutY="335.0" />
+            <Label layoutX="251.0" layoutY="316.0" text="Path Name" />
+            <Button fx:id="deployButton" layoutX="364.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleDeploy" prefHeight="25.0" prefWidth="99.0" text="Deploy" />
       </children>
     </AnchorPane>
   </children>

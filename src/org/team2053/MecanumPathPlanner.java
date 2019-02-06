@@ -766,42 +766,42 @@ public class MecanumPathPlanner
 			}
 		}
 		
-//		//calculate mecanum wheel paths based on center path
-//		calcWheelPaths(smoothPath, robotTrackWidth, robotTrackLength);
-//
-//		origCenterVelocity = velocity(smoothPath, timeStep, MotorType.kNone);
-//		origLeftFrontVelocity = velocity(leftFrontPath, timeStep, MotorType.kFrontLeft);
-//		origLeftRearVelocity = velocity(leftRearPath, timeStep, MotorType.kRearLeft);
-//		origRightFrontVelocity = velocity(rightFrontPath, timeStep, MotorType.kFrontRight);
-//		origRightRearVelocity = velocity(rightRearPath, timeStep, MotorType.kRearRight);
-//
-//		//copy smooth velocities into fix Velocities
-//		smoothCenterVelocity =  doubleArrayCopy(origCenterVelocity);
-//		smoothLeftFrontVelocity =  doubleArrayCopy(origLeftFrontVelocity);
-//		smoothLeftRearVelocity = doubleArrayCopy(origLeftRearVelocity);
-//		smoothRightFrontVelocity =  doubleArrayCopy(origRightFrontVelocity);
-//		smoothRightRearVelocity = doubleArrayCopy(origRightRearVelocity);
-//
-//		//set final vel to zero
-//		smoothCenterVelocity[smoothCenterVelocity.length-1][1] = 0.0;
-//		smoothLeftFrontVelocity[smoothLeftFrontVelocity.length-1][1] = 0.0;
-//		smoothLeftRearVelocity[smoothLeftRearVelocity.length-1][1] = 0.0;
-//		smoothRightFrontVelocity[smoothRightFrontVelocity.length-1][1] = 0.0;
-//		smoothRightRearVelocity[smoothLeftFrontVelocity.length-1][1] = 0.0;
-//
-//		//Smooth velocity with zero final V
-//		smoothCenterVelocity = smoother(smoothCenterVelocity, velocityAlpha, velocityBeta, velocityTolerance);
-//		smoothLeftFrontVelocity = smoother(smoothLeftFrontVelocity, velocityAlpha, velocityBeta, velocityTolerance);
-//		smoothLeftRearVelocity = smoother(smoothLeftRearVelocity, velocityAlpha, velocityBeta, velocityTolerance);
-//		smoothRightFrontVelocity = smoother(smoothRightFrontVelocity,velocityAlpha, velocityBeta, velocityTolerance);
-//		smoothRightRearVelocity = smoother(smoothRightRearVelocity, velocityAlpha, velocityBeta, velocityTolerance);
-//
-//		//fix velocity distance error
-//		smoothCenterVelocity = velocityFix(smoothCenterVelocity, origCenterVelocity, 0.0000001);
-//		smoothLeftFrontVelocity = velocityFix(smoothLeftFrontVelocity, origLeftFrontVelocity, 0.0000001);
-//		smoothLeftRearVelocity = velocityFix(smoothLeftRearVelocity, origLeftRearVelocity, 0.0000001);
-//		smoothRightFrontVelocity = velocityFix(smoothRightFrontVelocity, origRightFrontVelocity, 0.0000001);
-//		smoothRightRearVelocity = velocityFix(smoothRightRearVelocity, origRightRearVelocity, 0.0000001);
+		//calculate mecanum wheel paths based on center path
+		calcWheelPaths(smoothPath, robotTrackWidth, robotTrackLength);
+
+		origCenterVelocity = velocity(smoothPath, timeStep, MotorType.kNone);
+		origLeftFrontVelocity = velocity(leftFrontPath, timeStep, MotorType.kFrontLeft);
+		origLeftRearVelocity = velocity(leftRearPath, timeStep, MotorType.kRearLeft);
+		origRightFrontVelocity = velocity(rightFrontPath, timeStep, MotorType.kFrontRight);
+		origRightRearVelocity = velocity(rightRearPath, timeStep, MotorType.kRearRight);
+
+		//copy smooth velocities into fix Velocities
+		smoothCenterVelocity =  doubleArrayCopy(origCenterVelocity);
+		smoothLeftFrontVelocity =  doubleArrayCopy(origLeftFrontVelocity);
+		smoothLeftRearVelocity = doubleArrayCopy(origLeftRearVelocity);
+		smoothRightFrontVelocity =  doubleArrayCopy(origRightFrontVelocity);
+		smoothRightRearVelocity = doubleArrayCopy(origRightRearVelocity);
+
+		//set final vel to zero
+		smoothCenterVelocity[smoothCenterVelocity.length-1][1] = 0.0;
+		smoothLeftFrontVelocity[smoothLeftFrontVelocity.length-1][1] = 0.0;
+		smoothLeftRearVelocity[smoothLeftRearVelocity.length-1][1] = 0.0;
+		smoothRightFrontVelocity[smoothRightFrontVelocity.length-1][1] = 0.0;
+		smoothRightRearVelocity[smoothLeftFrontVelocity.length-1][1] = 0.0;
+
+		//Smooth velocity with zero final V
+		smoothCenterVelocity = smoother(smoothCenterVelocity, velocityAlpha, velocityBeta, velocityTolerance);
+		smoothLeftFrontVelocity = smoother(smoothLeftFrontVelocity, velocityAlpha, velocityBeta, velocityTolerance);
+		smoothLeftRearVelocity = smoother(smoothLeftRearVelocity, velocityAlpha, velocityBeta, velocityTolerance);
+		smoothRightFrontVelocity = smoother(smoothRightFrontVelocity,velocityAlpha, velocityBeta, velocityTolerance);
+		smoothRightRearVelocity = smoother(smoothRightRearVelocity, velocityAlpha, velocityBeta, velocityTolerance);
+
+		//fix velocity distance error
+		smoothCenterVelocity = velocityFix(smoothCenterVelocity, origCenterVelocity, 0.0000001);
+		smoothLeftFrontVelocity = velocityFix(smoothLeftFrontVelocity, origLeftFrontVelocity, 0.0000001);
+		smoothLeftRearVelocity = velocityFix(smoothLeftRearVelocity, origLeftRearVelocity, 0.0000001);
+		smoothRightFrontVelocity = velocityFix(smoothRightFrontVelocity, origRightFrontVelocity, 0.0000001);
+		smoothRightRearVelocity = velocityFix(smoothRightRearVelocity, origRightRearVelocity, 0.0000001);
 	}
 
 	//main program

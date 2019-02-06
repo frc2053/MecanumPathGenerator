@@ -2,17 +2,23 @@ package org.team2053;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import com.jcraft.jsch.JSchException;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
@@ -54,19 +60,36 @@ public class MainWindow {
     @FXML
     private TextField robotlengthBox;
     @FXML
+    private TextField pathNameField;
+    @FXML
     private ScatterChart<Number, Number> positionGraph;
     @FXML
     private NumberAxis xAxisPos;
     @FXML
     private NumberAxis yAxisPos;
     @FXML
+    private LineChart<Number, Number> velocityGraph;
+    @FXML
+    private NumberAxis xAxisVel;
+    @FXML
+    private NumberAxis yAxisVel;
+    @FXML
     private AnchorPane anchorPane;
     
     private final ObservableList<RobotPose> data = FXCollections.observableArrayList(new RobotPose(0,0,0));
     private static MecanumPathPlanner pathPlanner;
+    
     private static XYChart.Series<Number, Number> robotSmoothedSeries;
     private static XYChart.Series<Number, Number> robotPositionSeries;
-        
+    private static XYChart.Series<Number, Number> flVelocitySeries;
+    private static XYChart.Series<Number, Number> frVelocitySeries;
+    private static XYChart.Series<Number, Number> blVelocitySeries;
+    private static XYChart.Series<Number, Number> brVelocitySeries;
+    private static XYChart.Series<Number, Number> flPositionSeries;
+    private static XYChart.Series<Number, Number> frPositionSeries;
+    private static XYChart.Series<Number, Number> blPositionSeries;
+    private static XYChart.Series<Number, Number> brPositionSeries;
+    
     @FXML
     void handleAddPoint(ActionEvent event) {
     	data.add(new RobotPose(0, 0, 0));
@@ -93,22 +116,77 @@ public class MainWindow {
     	}
 		pathPlanner = new MecanumPathPlanner(path);
 		pathPlanner.calculate(Double.parseDouble(totaltimeBox.getText()), Double.parseDouble(timestepBox.getText()), Double.parseDouble(robotwidthBox.getText()), Double.parseDouble(robotlengthBox.getText()));
-		updateGraph();
-		pathPlanner.writeSmoothCSV("smoothPath.csv");
-		pathPlanner.writeOriginalCSV("originalPath.csv");
+		updatePositionGraph();
+		updateVelocityGraph();
+		pathPlanner.writeSmoothCSV("smooth" + pathNameField.getText() + ".csv");
+		pathPlanner.writeOriginalCSV("original" + pathNameField.getText() + ".csv");
     }
     
-    void updateGraph() {
+    @FXML
+    void handleDeploy(ActionEvent event) {
+    	System.out.println("DOES NOTHING ATM");
+    }
+    
+    void updatePositionGraph() {
     	positionGraph.getData().clear();
     	robotSmoothedSeries.getData().clear();
+    	robotPositionSeries.getData().clear();
+    	flPositionSeries.getData().clear();
+    	frPositionSeries.getData().clear();
+    	blPositionSeries.getData().clear();
+    	brPositionSeries.getData().clear();
     	for(double[] arr : pathPlanner.smoothPath) {
     		robotSmoothedSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
     	}
     	for(double[] arr : pathPlanner.origPath) {
     		robotPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
     	}
+    	for(double[] arr : pathPlanner.leftFrontPath) {
+    		flPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    	}
+    	for(double[] arr : pathPlanner.leftRearPath) {
+    		blPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    	}
+    	for(double[] arr : pathPlanner.rightFrontPath) {
+    		frPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    	}
+    	for(double[] arr : pathPlanner.rightRearPath) {
+    		brPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    	}
     	positionGraph.getData().add(robotSmoothedSeries);
     	positionGraph.getData().add(robotPositionSeries);
+    }
+    
+    void updateVelocityGraph() {
+    	velocityGraph.getData().clear();
+    	flVelocitySeries = new XYChart.Series<Number, Number>();
+    	flVelocitySeries.setName("FL Velocity");
+    	
+    	frVelocitySeries = new XYChart.Series<Number, Number>();
+    	frVelocitySeries.setName("FR Velocity");
+
+    	blVelocitySeries = new XYChart.Series<Number, Number>();
+    	blVelocitySeries.setName("BL Velocity");
+
+    	brVelocitySeries = new XYChart.Series<Number, Number>();
+    	brVelocitySeries.setName("BR Velocity");
+    	
+    	for(double[] arr : pathPlanner.smoothLeftFrontVelocity) {
+    		flVelocitySeries.getData().add(new XYChart.Data<Number, Number>(arr[0], arr[1]));
+    	}
+    	for(double[] arr : pathPlanner.smoothLeftRearVelocity) {
+    		blVelocitySeries.getData().add(new XYChart.Data<Number, Number>(arr[0], arr[1]));
+    	}
+    	for(double[] arr : pathPlanner.smoothRightFrontVelocity) {
+    		frVelocitySeries.getData().add(new XYChart.Data<Number, Number>(arr[0], arr[1]));
+    	}
+    	for(double[] arr : pathPlanner.smoothRightRearVelocity) {
+    		brVelocitySeries.getData().add(new XYChart.Data<Number, Number>(arr[0], arr[1]));
+    	}
+    	velocityGraph.getData().add(flVelocitySeries);
+    	velocityGraph.getData().add(frVelocitySeries);
+    	velocityGraph.getData().add(blVelocitySeries);
+    	velocityGraph.getData().add(brVelocitySeries);
     }
     
     @FXML
@@ -127,6 +205,31 @@ public class MainWindow {
     	
     	robotPositionSeries = new XYChart.Series<Number, Number>();
     	robotPositionSeries.setName("Original Position");
+    	
+    	flVelocitySeries = new XYChart.Series<Number, Number>();
+    	flVelocitySeries.setName("FL Velocity");
+    	
+    	frVelocitySeries = new XYChart.Series<Number, Number>();
+    	frVelocitySeries.setName("FR Velocity");
+
+    	blVelocitySeries = new XYChart.Series<Number, Number>();
+    	blVelocitySeries.setName("BL Velocity");
+
+    	brVelocitySeries = new XYChart.Series<Number, Number>();
+    	brVelocitySeries.setName("BR Velocity");
+    	
+    	flPositionSeries = new XYChart.Series<Number, Number>();
+    	flPositionSeries.setName("FL Position");
+    	
+    	frPositionSeries = new XYChart.Series<Number, Number>();
+    	frPositionSeries.setName("FR Position");
+    	
+    	blPositionSeries = new XYChart.Series<Number, Number>();
+    	blPositionSeries.setName("BL Position");
+    	
+    	brPositionSeries = new XYChart.Series<Number, Number>();
+    	brPositionSeries.setName("BR Position");
+
     	
     	xAxisPos.setAutoRanging(false);
     	xAxisPos.setLowerBound(0);
@@ -210,6 +313,42 @@ public class MainWindow {
 				arg0.getTableView().getItems().get(arg0.getTablePosition().getRow()).setHeading(arg0.getNewValue());
 			}
 		});
+		timestepBox.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                	timestepBox.setText(oldValue);
+                }
+		    }
+		});
+		totaltimeBox.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                	totaltimeBox.setText(oldValue);
+                }
+		    }
+		});
+		robotlengthBox.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                	robotlengthBox.setText(oldValue);
+                }
+		    }
+		});
+		robotwidthBox.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                	robotwidthBox.setText(oldValue);
+                }
+		    }
+		});
 		
 		data.clear();
 		data.add(new RobotPose(2, 8, 90));
@@ -240,8 +379,18 @@ public class MainWindow {
     
     public void readFile(File selectedFile){
     	positionGraph.getData().clear();
+    	velocityGraph.getData().clear();
     	robotSmoothedSeries.getData().clear();
     	robotPositionSeries.getData().clear();
+    	flVelocitySeries.getData().clear();
+    	frVelocitySeries.getData().clear();
+    	blVelocitySeries.getData().clear();
+    	brVelocitySeries.getData().clear();
+    	flPositionSeries.getData().clear();
+    	frPositionSeries.getData().clear();
+    	blPositionSeries.getData().clear();
+    	brPositionSeries.getData().clear();
+
     	data.clear();
     	
     	try {
