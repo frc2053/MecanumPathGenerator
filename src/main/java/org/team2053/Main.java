@@ -9,16 +9,16 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/mecanumjavafx.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("mecanumjavafx.fxml"));
 		
 		primaryStage.setTitle("Mecanum Path Planner");
 		Scene scene = new Scene(root, 1280, 720);
-		scene.getStylesheets().add("/mecanumstylesheet.css");
+		//cscene.getStylesheets().add("/resources/org/team2053/mecanumstylesheet.css");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
-	public static void main(String[] args) {
+
+	public void runMe(String[] args) {
 		launch(args);
 	}
 }
