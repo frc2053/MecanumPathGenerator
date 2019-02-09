@@ -175,6 +175,33 @@ public class MecanumPathPlanner
 			
 		}
 	}
+
+	public void writeVelocityCSV(String fileName) {
+		try {
+			Writer writerfl = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("fl" + fileName), "utf-8"));
+			Writer writerfr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("fr" + fileName), "utf-8"));
+			Writer writerbl = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("bl" + fileName), "utf-8"));
+			Writer writerbr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("br" + fileName), "utf-8"));
+			for(double[] pt : this.smoothLeftFrontVelocity) {
+				writerfl.write(pt[0] + "," + pt[1] + "\n");
+			}
+			for(double[] pt : this.smoothRightFrontVelocity) {
+				writerfr.write(pt[0] + "," + pt[1] + "\n");
+			}
+			for(double[] pt : this.smoothLeftRearVelocity) {
+				writerbl.write(pt[0] + "," + pt[1] + "\n");
+			}
+			for(double[] pt : this.smoothRightRearVelocity) {
+				writerbr.write(pt[0] + "," + pt[1] + "\n");
+			}
+			writerfl.close();
+			writerfr.close();
+			writerbl.close();
+			writerbr.close();
+		} catch(IOException e) {
+			
+		}
+	}
 	
 	public void writeOriginalCSV(String fileName) {
 		try {

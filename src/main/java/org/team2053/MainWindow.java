@@ -118,6 +118,7 @@ public class MainWindow {
 		updateVelocityGraph();
 		pathPlanner.writeSmoothCSV("smooth" + pathNameField.getText() + ".csv");
 		pathPlanner.writeOriginalCSV("original" + pathNameField.getText() + ".csv");
+		pathPlanner.writeVelocityCSV("velocity" + pathNameField.getText() + ".csv");
     }
     
     @FXML
