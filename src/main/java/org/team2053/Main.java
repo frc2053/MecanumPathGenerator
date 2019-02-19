@@ -13,7 +13,7 @@ public class Main extends Application {
 		
 		primaryStage.setTitle("Mecanum Path Planner");
 		Scene scene = new Scene(root, 1280, 720);
-		//cscene.getStylesheets().add("/resources/org/team2053/mecanumstylesheet.css");
+		scene.getStylesheets().add("/resources/org/team2053/mecanumstylesheet.css");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
