@@ -42,6 +42,7 @@ dependencies {
 
 sourceSets {
     main {
+        output.resourcesDir = "build/classes/java/main/org/team2053"
         resources {
             srcDirs = ["src/main/resources/org/team2053"]
             includes = ["**/*.fxml"]
