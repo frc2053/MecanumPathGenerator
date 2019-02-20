@@ -30,6 +30,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 
 public class MainWindow {
 
@@ -72,7 +75,11 @@ public class MainWindow {
     @FXML
     private NumberAxis yAxisVel;
     @FXML
-    private AnchorPane anchorPane;
+	private AnchorPane anchorPane;
+	@FXML
+	private ImageView _imageOverlay;
+
+	private Image field;
     
     private final ObservableList<RobotPose> data = FXCollections.observableArrayList(new RobotPose(0,0,0));
     private static MecanumPathPlanner pathPlanner;
@@ -199,6 +206,9 @@ public class MainWindow {
     
     @FXML
     void initialize() {
+		_imageOverlay.setImage(new Image(getClass().getClassLoader().getResource("2019-field.jpg").toString()));
+		_imageOverlay.setPreserveRatio(false);
+
     	robotSmoothedSeries = new XYChart.Series<Number, Number>();
     	robotSmoothedSeries.setName("Smoothed Position");
     	

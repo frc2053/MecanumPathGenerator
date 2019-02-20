@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -70,7 +71,7 @@
             <TextField fx:id="robotlengthBox" layoutX="251.0" layoutY="291.0" text="25.25" />
             <Label layoutX="251.0" layoutY="274.0" text="Robot Length (in)" />
             <Button layoutX="251.0" layoutY="115.0" mnemonicParsing="false" onAction="#handleConvert" text="Convert Ft to In" />
-            <ScatterChart fx:id="positionGraph" animated="false" layoutX="413.0" layoutY="20.0" title="Position">
+            <ScatterChart fx:id="positionGraph" animated="false" layoutX="413.0" layoutY="20.0" legendVisible="false" style="-fx-background-color: transparent;" title="Position">
               <xAxis>
                 <NumberAxis side="TOP" fx:id="xAxisPos" />
               </xAxis>
@@ -86,6 +87,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </LineChart>
+            <ImageView fx:id="_imageOverlay" fitHeight="321.0" fitWidth="443.0" layoutX="457.0" layoutY="85.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" />
             <TextField fx:id="pathNameField" layoutX="251.0" layoutY="335.0" />
             <Label layoutX="251.0" layoutY="316.0" text="Path Name" />
             <Button fx:id="deployButton" layoutX="364.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleDeploy" prefHeight="25.0" prefWidth="99.0" text="Deploy" />
