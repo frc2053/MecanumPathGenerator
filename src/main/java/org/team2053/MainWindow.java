@@ -142,22 +142,22 @@ public class MainWindow {
     	blPositionSeries.getData().clear();
     	brPositionSeries.getData().clear();
     	for(double[] arr : pathPlanner.smoothPath) {
-    		robotSmoothedSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    		robotSmoothedSeries.getData().add(new XYChart.Data<Number, Number>(arr[1], -arr[0]));
     	}
     	for(double[] arr : pathPlanner.origPath) {
-    		robotPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    		robotPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[1], -arr[0]));
     	}
     	for(double[] arr : pathPlanner.leftFrontPath) {
-    		flPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    		flPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[1], -arr[0]));
     	}
     	for(double[] arr : pathPlanner.leftRearPath) {
-    		blPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    		blPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[1], -arr[0]));
     	}
     	for(double[] arr : pathPlanner.rightFrontPath) {
-    		frPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    		frPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[1], -arr[0]));
     	}
     	for(double[] arr : pathPlanner.rightRearPath) {
-    		brPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[0], -arr[1]));
+    		brPositionSeries.getData().add(new XYChart.Data<Number, Number>(arr[1], -arr[0]));
     	}
     	positionGraph.getData().add(robotSmoothedSeries);
     	positionGraph.getData().add(robotPositionSeries);
