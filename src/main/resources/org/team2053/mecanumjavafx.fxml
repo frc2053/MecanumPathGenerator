@@ -67,8 +67,8 @@
             <Label layoutX="251.0" layoutY="190.0" text="Total time (s)" />
             <TextField fx:id="totaltimeBox" layoutX="251.0" layoutY="207.0" text="8" />
             <Label layoutX="251.0" layoutY="232.0" text="Robot Width (in)" />
-            <TextField fx:id="robotwidthBox" layoutX="251.0" layoutY="249.0" text="25.25" />
-            <TextField fx:id="robotlengthBox" layoutX="251.0" layoutY="291.0" text="25.25" />
+            <TextField fx:id="robotwidthBox" layoutX="251.0" layoutY="249.0" text="26.8" />
+            <TextField fx:id="robotlengthBox" layoutX="251.0" layoutY="291.0" text="22.5" />
             <Label layoutX="251.0" layoutY="274.0" text="Robot Length (in)" />
             <Button layoutX="251.0" layoutY="115.0" mnemonicParsing="false" onAction="#handleConvert" text="Convert Ft to In" />
             <ScatterChart fx:id="positionGraph" animated="false" layoutX="413.0" layoutY="20.0" legendVisible="false" style="-fx-background-color: transparent;" title="Position">
